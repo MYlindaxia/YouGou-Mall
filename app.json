@@ -16,9 +16,10 @@
   ],
   "window":{
     "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "MYlindaxia",
-    "navigationBarTextStyle":"black"
+    "navigationBarBackgroundColor": "#666",
+    "navigationBarTitleText": "HD",
+    "navigationBarTextStyle":"white",
+    "backgroundColor": "#eb4450"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",
