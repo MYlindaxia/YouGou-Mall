@@ -27,16 +27,30 @@ Page({
     pagesize : 10,
 
   },
+  totalPages : 1,
+
   onLoad(options) {
     this.QueryParams.cid = options.cid;
     this.getGoodsList();
+
+    wx.showLoading({
+      title: '加载中',
+    })
+
+    setTimeout(() => {
+      wx.hideLoading();
+    },5000);
   },
 
   async getGoodsList() {
     const res = await request({url:"goods/search",data:this.QueryParams});
+    const total = res.data.message.total;
+    this.totalPages = Math.ceil(total / this.QueryParams.pagesize);
+
     this.setData({
-      goodsList:res.data.message.goods
+      goodsList:[...this.data.goodsList,...res.data.message.goods]
     })
+    wx.stopPullDownRefresh();
   },
 
   handleTabsItemChange(e) {
@@ -48,5 +62,22 @@ Page({
     this.setData({
       tabs
     })
+  },
+  onReachBottom() {
+    if(this.QueryParams.pagenum >= this.totalPages){
+      wx.showToast({
+        title : '没有下一页数据了'
+      });
+    }else{
+      this.QueryParams.pagenum++;
+      this.getGoodsList();
+    }
+  },
+  onPullDownRefresh() {
+    this.setData({
+      goodsList:[]
+    })
+    this.QueryParams.pagenum = 1;
+    this.getGoodsList();
   }
 })
