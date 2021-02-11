@@ -34,9 +34,8 @@ Page({
 
   async getGoodsList() {
     const res = await request({url:"goods/search",data:this.QueryParams});
-    console.log(res.data.message);
     this.setData({
-      goodsList:res.data.message
+      goodsList:res.data.message.goods
     })
   },
 
