@@ -31,5 +31,22 @@ Page({
       current : current,
       urls: urls,
     })
+  },
+  handleCartAdd() {
+    let cart = wx.getStorageSync('cart') || [];
+    let index = cart.findIndex(v => v.goods_id === this.GoodsInfo.goods_id);
+    if(index === -1 ) {
+      this.GoodsInfo.num = 1;
+      this.GoodsInfo.checked = true;
+      cart.push(this.GoodsInfo);
+    }else{
+      cart[index].num++;
+    }
+    wx.setStorageSync("cart",cart);
+    wx.showToast({
+      title: '加入成功',
+      icon:'success',
+      mask : true
+    })
   }
 })
