@@ -18,10 +18,12 @@
   <view class="cart_title">
     购物车
   </view>
-  <view class="cart_main">
+
+  <block wx:if="{{cart.length!==0}}">
+    <view class="cart_main">
     <view class="cart_item" wx:for="{{cart}}" wx:key="goods_id">
       <view class="cart_chk_wrap">
-        <checkbox-group>
+        <checkbox-group bindchange="handleItemChange" data-id="{{item.goods_id}}">
           <checkbox checked="{{item.data.message.checked}}"></checkbox>
         </checkbox-group>
       </view>
@@ -33,30 +35,32 @@
         <view class="goods_price_wrap">
           <view class="goods_price">${{item.data.message.goods_price}}</view>
           <view class="cart_num_tool">
-            <view class="num_edit">-</view>
-            <view class="goods_num">{{item.data.message.num}}</view>
-            <view class="num_edit">+</view>
+            <view class="num_edit" bindtap="handleItemNumEdit" data-id="{{item.goods_id}}" data-operation="{{-1}}">-</view>
+            <view class="goods_num">{{item.num}}</view>
+            <view class="num_edit" bindtap="handleItemNumEdit" data-id="{{item.goods_id}}" data-operation="{{1}}">+</view>
           </view>
         </view>
       </view>
     </view>
   </view>
+  </block>
+  <block wx:else>还没有选购商品</block>
 
 </view>
 
 <view class="footer_tool">
   <view class="all-chk-wrap">
-    <checkbox-group>
+    <checkbox-group bindchange="handleItemAllCheck">
       <checkbox checked="{{allChecked}}">全选</checkbox>
     </checkbox-group>
   </view>
   <view class="total_price_wrap">
     <view class="total_price">
-      合计:<text class="total_price_text">$000</text>
+      合计:<text class="total_price_text">${{totalPrice}}</text>
     </view>
     <view>包含运费</view>
   </view>
-  <view class="order_pay_wrap">
-    结算(2)
+  <view class="order_pay_wrap" bindtap="handlePay">
+    结算{{totalNum}}
   </view>
 </view>
